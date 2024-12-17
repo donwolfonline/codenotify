@@ -69,7 +69,7 @@ export default function NotePlayground({
     if (editor && defaultValue) {
       try {
         const content = JSON.parse(defaultValue);
-        editor.commands.setContent(content);
+        editor.commands.setContent(content as Record<string, unknown>);
       } catch (e) {
         console.error('Failed to parse defaultValue:', e);
         editor.commands.setContent(defaultValue);
