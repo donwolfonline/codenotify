@@ -3,7 +3,8 @@ import StarterKit from '@tiptap/starter-kit';
 import { useToast } from '~/components/ui/use-toast';
 import { api } from '~/utils/api';
 import type { Editor as Editor$1, JSONContent } from '@tiptap/core';
-import { useEffect } from 'react';
+import { useEffect, useCallback } from 'react';
+import debounce from 'lodash/debounce';
 
 export default function NotePlayground({
   id,
@@ -22,12 +23,16 @@ export default function NotePlayground({
 
       utils.note.getById.setData(
         { id },
-        {
-          data: {
-            ...data.data,
-            contentJson: data.data.contentJson,
-            contentHTML: data.data.contentHTML,
-          },
+        (old) => {
+          if (!old) return { data: data.data };
+          return {
+            ...old,
+            data: {
+              ...old.data,
+              contentJson: data.data.contentJson,
+              contentHTML: data.data.contentHTML,
+            },
+          };
         },
       );
     },
@@ -40,19 +45,23 @@ export default function NotePlayground({
     },
   });
 
-  const updateNoteData = (editor: Editor$1 | undefined) => {
-    if (!id || !editor) return;
+  // Debounce the update function to prevent too frequent saves
+  const debouncedUpdate = useCallback(
+    debounce((editor: Editor$1) => {
+      if (!id) return;
 
-    noteUpdate.mutate({
-      params: {
-        id: id,
-      },
-      body: {
-        contentJson: JSON.stringify(editor.getJSON()),
-        contentHTML: editor.getHTML(),
-      },
-    });
-  };
+      noteUpdate.mutate({
+        params: {
+          id: id,
+        },
+        body: {
+          contentJson: JSON.stringify(editor.getJSON()),
+          contentHTML: editor.getHTML(),
+        },
+      });
+    }, 1000),
+    [id, noteUpdate]
+  );
 
   const editor = useEditor({
     extensions: [StarterKit],
@@ -62,11 +71,14 @@ export default function NotePlayground({
         class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
       },
     },
+    onUpdate: ({ editor }) => {
+      debouncedUpdate(editor);
+    },
   });
 
   // Set content after editor is initialized
   useEffect(() => {
-    if (editor && defaultValue) {
+    if (editor && defaultValue && !editor.getText().trim()) {
       try {
         const content = JSON.parse(defaultValue) as JSONContent;
         editor.commands.setContent(content);
@@ -76,15 +88,6 @@ export default function NotePlayground({
       }
     }
   }, [editor, defaultValue]);
-
-  // Set up update handler after editor is initialized
-  useEffect(() => {
-    if (editor) {
-      editor.on('update', ({ editor }) => {
-        updateNoteData(editor);
-      });
-    }
-  }, [editor]);
 
   if (!editor) {
     return null;
@@ -99,7 +102,7 @@ export default function NotePlayground({
       )}
       <EditorContent 
         editor={editor} 
-        className="relative min-h-[500px] w-full border-stone-200 bg-black sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg p-4"
+        className="min-h-[500px] w-full rounded-md border p-5"
       />
     </div>
   );
