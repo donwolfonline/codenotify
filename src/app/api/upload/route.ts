@@ -3,7 +3,7 @@ import { NextResponse } from 'next/server';
 
 export const runtime = 'edge';
 
-export default async function POST(req: Request) {
+export async function POST(req: Request) {
   if (!process.env.BLOB_READ_WRITE_TOKEN) {
     return new Response(
       "Missing BLOB_READ_WRITE_TOKEN. Don't forget to add that to your .env file.",
@@ -22,10 +22,19 @@ export default async function POST(req: Request) {
   const finalName = filename.includes(fileType)
     ? filename
     : `${filename}${fileType}`;
-  const blob = await put(finalName, file, {
-    contentType,
-    access: 'public',
-  });
 
-  return NextResponse.json(blob);
+  try {
+    const blob = await put(finalName, file, {
+      contentType,
+      access: 'public',
+    });
+
+    return NextResponse.json(blob);
+  } catch (error) {
+    console.error('Error uploading to blob:', error);
+    return NextResponse.json(
+      { error: 'Failed to upload file' },
+      { status: 500 }
+    );
+  }
 }
