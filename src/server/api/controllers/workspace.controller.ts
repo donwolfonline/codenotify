@@ -44,13 +44,10 @@ export const createWorkspaceHandler = async ({
   ctx: Context;
 }) => {
   try {
-    const slug = input.title;
-
     const workspace = await createWorkspace({
       input: {
         title: input.title,
         emoticon: '🗒️',
-        slug: slug,
         user: {
           connect: {
             id: ctx.session?.user.id,
@@ -64,13 +61,21 @@ export const createWorkspaceHandler = async ({
     };
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        throw new TRPCError({
+          code: 'CONFLICT',
+          message: 'A workspace with this title already exists',
+        });
+      }
       throw new TRPCError({
         code: 'BAD_REQUEST',
-        message: error.message,
+        message: 'Failed to create workspace',
       });
-    } else {
-      throw error;
     }
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'An unexpected error occurred',
+    });
   }
 };
 
@@ -82,8 +87,6 @@ export const updateWorkspaceHandler = async ({
   ctx: Context;
 }) => {
   try {
-    const slug = input.body.title;
-
     const workspace = await updateWorkspace({
       where: {
         id: input.params.id,
@@ -91,7 +94,6 @@ export const updateWorkspaceHandler = async ({
       },
       input: {
         title: input.body.title,
-        slug: slug,
         emoticon: input.body.emoticon,
         user: {
           connect: {
@@ -106,13 +108,21 @@ export const updateWorkspaceHandler = async ({
     };
   } catch (error) {
     if (error instanceof PrismaClientKnownRequestError) {
+      if (error.code === 'P2002') {
+        throw new TRPCError({
+          code: 'CONFLICT',
+          message: 'A workspace with this title already exists',
+        });
+      }
       throw new TRPCError({
         code: 'BAD_REQUEST',
-        message: error.message,
+        message: 'Failed to update workspace',
       });
-    } else {
-      throw error;
     }
+    throw new TRPCError({
+      code: 'INTERNAL_SERVER_ERROR',
+      message: 'An unexpected error occurred',
+    });
   }
 };
 
