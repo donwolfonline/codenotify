@@ -1,7 +1,9 @@
-import { Editor } from 'novel';
+import { EditorContent, useEditor } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
 import { useToast } from '~/components/ui/use-toast';
 import { api } from '~/utils/api';
 import type { Editor as Editor$1 } from '@tiptap/core';
+import { useEffect } from 'react';
 
 export default function NotePlayground({
   id,
@@ -28,7 +30,6 @@ export default function NotePlayground({
           },
         },
       );
-      // utils.note.getById.
     },
     onError(error) {
       toast({
@@ -52,6 +53,43 @@ export default function NotePlayground({
       },
     });
   };
+
+  const editor = useEditor({
+    extensions: [StarterKit],
+    content: '',
+    editorProps: {
+      attributes: {
+        class: 'prose prose-sm sm:prose lg:prose-lg xl:prose-2xl mx-auto focus:outline-none',
+      },
+    },
+  });
+
+  // Set content after editor is initialized
+  useEffect(() => {
+    if (editor && defaultValue) {
+      try {
+        const content = JSON.parse(defaultValue);
+        editor.commands.setContent(content);
+      } catch (e) {
+        console.error('Failed to parse defaultValue:', e);
+        editor.commands.setContent(defaultValue);
+      }
+    }
+  }, [editor, defaultValue]);
+
+  // Set up update handler after editor is initialized
+  useEffect(() => {
+    if (editor) {
+      editor.on('update', ({ editor }) => {
+        updateNoteData(editor);
+      });
+    }
+  }, [editor]);
+
+  if (!editor) {
+    return null;
+  }
+
   return (
     <div className="dark-theme relative">
       {noteUpdate.isLoading && (
@@ -59,11 +97,9 @@ export default function NotePlayground({
           Saving ...
         </div>
       )}
-      <Editor
-        defaultValue={defaultValue ? JSON.parse(defaultValue) : ''}
-        onDebouncedUpdate={(editor) => updateNoteData(editor)}
-        disableLocalStorage={true}
-        className="relative min-h-[500px] w-full border-stone-200  bg-black sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg"
+      <EditorContent 
+        editor={editor} 
+        className="relative min-h-[500px] w-full border-stone-200 bg-black sm:mb-[calc(20vh)] sm:rounded-lg sm:border sm:shadow-lg p-4"
       />
     </div>
   );

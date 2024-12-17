@@ -1,53 +1,61 @@
-# Code Notes
+# CodeNotify
 
-![Code Notes Cover](https://raw.githubusercontent.com/JungRama/code-notes/master/public/og-image.png)
-
-Welcome to **Code Notes**, your minimalist note-taking solution that takes your notes without any unnecessary distractions. This repository houses the source code for Code Notes, a straightforward and user-friendly note-taking application.
-
-## Overview
-
-Code Notes is designed with simplicity and ease of use in mind. It provides a clean and distraction-free interface to help you capture and organize your thoughts, ideas, and important information effortlessly.
-
-## Screenshoot
-
-![Code Notes Screenshoot](https://raw.githubusercontent.com/JungRama/code-notes/master/public/screenshoot.png)
+A minimalist note-taking solution that prioritizes simplicity and ease of use.
 
 ## Features
 
-- **Minimalist Design**: Code Notes offers a clutter-free environment to focus solely on your notes.
+- Clean and distraction-free interface
+- Rich text editing with TipTap
+- GitHub authentication
+- Dark mode support
+- Real-time updates
+- Mobile responsive design
 
-- **Markdown Support**: Write your notes in Markdown for easy formatting and structuring.
+## Tech Stack
 
-- **Workspace**: Organize your notes with workspace to quickly locate and filter your content.
-
-## Stack
-
-- **NextJS**: Next.js is a popular open-source JavaScript framework built on top of React. It is designed to simplify the process of building modern, server-rendered React applications.
-
-- **TRPC**: it is a library for building type-safe APIs in TypeScript. tRPC aims to eliminate runtime errors in your API calls by generating TypeScript types for your API endpoints.
-
-- **Prisma**: Prisma is an open-source database toolkit and ORM (Object-Relational Mapping) for TypeScript and JavaScript. It simplifies database access and management by providing a type-safe and auto-generated query builder.
+- Next.js 13
+- TypeScript
+- Tailwind CSS
+- Prisma
+- NextAuth.js
+- tRPC
+- TipTap Editor
 
 ## Getting Started
 
-To get started with Code Notes, follow these steps:
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/donwolfonline/codenotify.git
+   ```
 
-1. Clone this repository to your local machine.
-2. Install the required dependencies.
-3. Start the application.
-4. Open your browser and navigate to `http://localhost:3000` to access Code Notes.
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   Create a `.env` file with the following:
+   ```env
+   DATABASE_URL=
+   NEXTAUTH_URL=
+   GITHUB_CLIENT_ID=
+   GITHUB_CLIENT_SECRET=
+   NEXTAUTH_SECRET=
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Contributing
+
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+[MIT](https://choosealicense.com/licenses/mit/)
 
-## Acknowledgments
+## Author
 
-- Thanks to all our contributors who have helped make Code Notes better.
-- Code Notes was inspired by a desire for a minimalist note-taking solution.
-
----
-
-Enjoy using Code Notes for all your note-taking needs. If you have any questions, suggestions, or issues, please feel free to [open an issue]. Happy note-taking!
-
-[Visit Code Notes on GitHub](https://github.com/JungRama/code-notes)
+Frederick Dineen

@@ -96,3 +96,66 @@
 #slash-command button:hover {
   background: #141414 !important;
 }
+
+/* TipTap Editor Styles */
+.ProseMirror {
+  color: white;
+  min-height: 100px;
+  padding: 1rem;
+}
+
+.ProseMirror:focus {
+  outline: none;
+}
+
+.ProseMirror > * + * {
+  margin-top: 0.75em;
+}
+
+.ProseMirror p {
+  margin: 1em 0;
+}
+
+.ProseMirror h1,
+.ProseMirror h2,
+.ProseMirror h3,
+.ProseMirror h4,
+.ProseMirror h5,
+.ProseMirror h6 {
+  color: white;
+  line-height: 1.1;
+  margin-top: 2em;
+  margin-bottom: 0.5em;
+}
+
+.ProseMirror ul,
+.ProseMirror ol {
+  padding-left: 1.5em;
+  color: white;
+}
+
+.ProseMirror code {
+  background-color: rgba(97, 97, 97, 0.1);
+  color: #e83e8c;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+}
+
+.ProseMirror pre {
+  background: #0d0d0d;
+  color: #fff;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.ProseMirror pre code {
+  color: inherit;
+  padding: 0;
+  background: none;
+}
+
+.ProseMirror blockquote {
+  padding-left: 1rem;
+  border-left: 2px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
+}

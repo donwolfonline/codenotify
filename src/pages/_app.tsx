@@ -27,14 +27,14 @@ const MyApp: AppType<{ session: Session | null; dehydratedState: unknown }> = ({
   return (
     <div className={inter.className}>
       <Head>
-        <title>Dev Notes - Takes your notes without any b*llshit</title>
+        <title>CodeNotify - Takes your notes without any b*llshit</title>
         <meta
           name="description"
           content="Simple notes for your dev journaling"
         />
         <meta
           property="og:title"
-          content="Dev Notes - Takes your notes without any b*llshit"
+          content="CodeNotify - Takes your notes without any b*llshit"
         />
         <meta property="og:image" content="/og-image.png" />
         <link rel="icon" href="/favicon.png" />

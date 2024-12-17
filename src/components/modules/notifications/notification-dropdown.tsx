@@ -25,12 +25,12 @@ export default function NotificationDropdown() {
             <div className="flex flex-col space-y-1">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-medium leading-none">
-                  Welcome to code notes!
+                  Welcome to CodeNotify!
                 </p>
               </div>
               <p className="font-regular text-muted-foreground">
                 Write down your notes easily and access it freely. Thank! by{' '}
-                <a href="https://jungrama.com/" target="_blank">
+                <a href="https://frederickdineen.com/" target="_blank">
                   @JR
                 </a>
               </p>
