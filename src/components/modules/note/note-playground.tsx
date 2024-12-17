@@ -2,7 +2,7 @@ import { EditorContent, useEditor } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import { useToast } from '~/components/ui/use-toast';
 import { api } from '~/utils/api';
-import type { Editor as Editor$1 } from '@tiptap/core';
+import type { Editor as Editor$1, JSONContent } from '@tiptap/core';
 import { useEffect } from 'react';
 
 export default function NotePlayground({
@@ -68,8 +68,8 @@ export default function NotePlayground({
   useEffect(() => {
     if (editor && defaultValue) {
       try {
-        const content = JSON.parse(defaultValue);
-        editor.commands.setContent(content as Record<string, unknown>);
+        const content = JSON.parse(defaultValue) as JSONContent;
+        editor.commands.setContent(content);
       } catch (e) {
         console.error('Failed to parse defaultValue:', e);
         editor.commands.setContent(defaultValue);
