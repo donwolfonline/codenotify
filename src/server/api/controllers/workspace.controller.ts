@@ -48,6 +48,7 @@ export const createWorkspaceHandler = async ({
       input: {
         title: input.title,
         emoticon: '🗒️',
+        slug: input.title, // The service will handle generating a unique slug
         user: {
           connect: {
             id: ctx.session?.user.id,
@@ -95,6 +96,7 @@ export const updateWorkspaceHandler = async ({
       input: {
         title: input.body.title,
         emoticon: input.body.emoticon,
+        slug: input.body.title, // The service will handle generating a unique slug
         user: {
           connect: {
             id: ctx.session?.user.id,
