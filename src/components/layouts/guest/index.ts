@@ -1,2 +1,2 @@
-export { default } from './index';
-export * from './index';
+export { default } from './layout';
+export * from './layout';
